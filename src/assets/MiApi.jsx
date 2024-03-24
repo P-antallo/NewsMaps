@@ -6,6 +6,72 @@ function MiApi({ onSearch, searchParams }) {
   const [category, setCategory] = useState('');
   const [query, setQuery] = useState('');
 
+  const countries = [
+    { code: 'ae', name: 'Emiratos Árabes Unidos' },
+    { code: 'ar', name: 'Argentina' },
+    { code: 'at', name: 'Austria' },
+    { code: 'au', name: 'Australia' },
+    { code: 'be', name: 'Bélgica' },
+    { code: 'bg', name: 'Bulgaria' },
+    { code: 'br', name: 'Brasil' },
+    { code: 'ca', name: 'Canadá' },
+    { code: 'ch', name: 'Suiza' },
+    { code: 'cn', name: 'China' },
+    { code: 'co', name: 'Colombia' },
+    { code: 'cu', name: 'Cuba' },
+    { code: 'cz', name: 'República Checa' },
+    { code: 'de', name: 'Alemania' },
+    { code: 'eg', name: 'Egipto' },
+    { code: 'fr', name: 'Francia' },
+    { code: 'gb', name: 'Reino Unido' },
+    { code: 'gr', name: 'Grecia' },
+    { code: 'hk', name: 'Hong Kong' },
+    { code: 'hu', name: 'Hungría' },
+    { code: 'id', name: 'Indonesia' },
+    { code: 'ie', name: 'Irlanda' },
+    { code: 'il', name: 'Israel' },
+    { code: 'in', name: 'India' },
+    { code: 'it', name: 'Italia' },
+    { code: 'jp', name: 'Japón' },
+    { code: 'kr', name: 'Corea del Sur' },
+    { code: 'lt', name: 'Lituania' },
+    { code: 'lv', name: 'Letonia' },
+    { code: 'ma', name: 'Marruecos' },
+    { code: 'mx', name: 'México' },
+    { code: 'my', name: 'Malasia' },
+    { code: 'ng', name: 'Nigeria' },
+    { code: 'nl', name: 'Países Bajos' },
+    { code: 'no', name: 'Noruega' },
+    { code: 'nz', name: 'Nueva Zelanda' },
+    { code: 'ph', name: 'Filipinas' },
+    { code: 'pl', name: 'Polonia' },
+    { code: 'pt', name: 'Portugal' },
+    { code: 'ro', name: 'Rumania' },
+    { code: 'rs', name: 'Serbia' },
+    { code: 'ru', name: 'Rusia' },
+    { code: 'sa', name: 'Arabia Saudita' },
+    { code: 'se', name: 'Suecia' },
+    { code: 'sg', name: 'Singapur' },
+    { code: 'sk', name: 'Eslovaquia' },
+    { code: 'th', name: 'Tailandia' },
+    { code: 'tr', name: 'Turquía' },
+    { code: 'tw', name: 'Taiwán' },
+    { code: 'ua', name: 'Ucrania' },
+    { code: 'us', name: 'Estados Unidos' },
+    { code: 've', name: 'Venezuela' },
+    { code: 'za', name: 'Sudáfrica' },
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
+  const categories = [
+    { code: 'business', name: 'Negocios' },
+    { code: 'entertainment', name: 'Entretenimiento' },
+    { code: 'general', name: 'General' },
+    {    code: 'health', name: 'Salud' },
+    { code: 'science', name: 'Ciencia' },
+    { code: 'sports', name: 'Deportes' },
+    { code: 'technology', name: 'Tecnología' },
+  ].sort((a, b) => a.name.localeCompare(b.name));
+
   useEffect(() => {
     if (onSearch || !searchParams || (!searchParams.country && !searchParams.category && !searchParams.query)) return;
 
@@ -33,103 +99,45 @@ function MiApi({ onSearch, searchParams }) {
     setCountry('');
     setCategory('');
     setQuery('');
-    setArticles([]); // Limpiar los resultados de la búsqueda
+    setArticles([]); 
     if (onSearch) {
-      onSearch({ country: '', category: '', query: '' }); // Restablecer los resultados de la búsqueda
+      onSearch({ country: '', category: '', query: '' }); 
     }
   };
 
   if (onSearch) {
-    // Render search form
-    
-    return(
+    return (
       <form onSubmit={handleSubmit}>
         <select value={country} onChange={(e) => setCountry(e.target.value)}>
           <option value="">Todos los países</option>
-          <option value="ae">Emiratos Árabes Unidos</option>
-          <option value="ar">Argentina</option>
-          <option value="at">Austria</option>
-          <option value="au">Australia</option>
-          <option value="be">Bélgica</option>
-          <option value="bg">Bulgaria</option>
-          <option value="br">Brasil</option>
-          <option value="ca">Canadá</option>
-          <option value="ch">Suiza</option>
-          <option value="cn">China</option>
-          <option value="co">Colombia</option>
-          <option value="cu">Cuba</option>
-          <option value="cz">República Checa</option>
-          <option value="de">Alemania</option>
-          <option value="eg">Egipto</option>
-          <option value="fr">Francia</option>
-          <option value="gb">Reino Unido</option>
-          <option value="gr">Grecia</option>
-          <option value="hk">Hong Kong</option>
-          <option value="hu">Hungría</option>
-          <option value="id">Indonesia</option>
-          <option value="ie">Irlanda</option>
-          <option value="il">Israel</option>
-          <option value="in">India</option>
-          <option value="it">Italia</option>
-          <option value="jp">Japón</option>
-          <option value="kr">Corea del Sur</option>
-          <option value="lt">Lituania</option>
-          <option value="lv">Letonia</option>
-          <option value="ma">Marruecos</option>
-          <option value="mx">México</option>
-          <option value="my">Malasia</option>
-          <option value="ng">Nigeria</option>
-          <option value="nl">Países Bajos</option>
-          <option value="no">Noruega</option>
-          <option value="nz">Nueva Zelanda</option>
-          <option value="ph">Filipinas</option>
-          <option value="pl">Polonia</option>
-          <option value="pt">Portugal</option>
-          <option value="ro">Rumania</option>
-          <option value="rs">Serbia</option>
-          <option value="ru">Rusia</option>
-          <option value="sa">Arabia Saudita</option>
-          <option value="se">Suecia</option>
-          <option value="sg">Singapur</option>
-          <option value="si">Eslovenia</option>
-          <option value="sk">Eslovaquia</option>
-          <option value="th">Tailandia</option>
-          <option value="tr">Turquía</option>
-          <option value="tw">Taiwán</option>
-          <option value="ua">Ucrania</option>
-          <option value="us">Estados Unidos</option>
-          <option value="ve">Venezuela</option>
-          <option value="za">Sudáfrica</option>
+          {countries.map((c) => (
+            <option key={c.code} value={c.code}>{c.name}</option>
+          ))}
         </select>
-        <select value={category}
-        onChange={(e) => setCategory(e.target.value)}>
-        <option value="">Todas las categorías</option>
-        <option value="business">Negocios</option>
-        <option value="entertainment">Entretenimiento</option>
-        <option value="general">General</option>
-        <option value="health">Salud</option>
-        <option value="science">Ciencia</option>
-        <option value="sports">Deportes</option>
-        <option value="technology">Tecnología</option>
-      </select>
-      <button type="submit">Buscar</button>
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="">Todas las categorías</option>
+          {categories.map((c) => (
+            <option key={c.code} value={c.code}>{c.name}</option>
+          ))}
+        </select>
+        <button type="submit">Buscar</button>
         <button type="button" onClick={handleReset}>Reiniciar</button>
       </form>
     );
   } else {
-  // Render articles
-  return (
-    <div className="articles">
-      {articles.map((article, index) => (
-        <div key={index} className="article">
-          <h3>{article.title}</h3>
-          <p>{article.description}</p>
-          <a href={article.url} target="_blank" rel="noopener noreferrer">Leer más</a>
-        </div>
-      ))}
-    </div>
-  );
-}
+    return (
+      <div className="articles">
+        {articles.map((article, index) => (
+          <div key={index} className="article">
+            <h3>{article.title}</h3>
+            <p>{article.description}</p>
+            <a href={article.url} target="_blank" rel="noopener noreferrer">Leer más</a>
+          </div>
+        ))}
+      </div>
+    );
+  }
 }
 
 export default MiApi;
+
